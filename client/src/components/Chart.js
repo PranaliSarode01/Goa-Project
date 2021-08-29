@@ -14,7 +14,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
 
-
 const useStyles = makeStyles((theme) => ({
 
   root: {
@@ -38,15 +37,27 @@ const useStyles = makeStyles((theme) => ({
 export default function ImgMediaCard() {
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = React.useState();
+  const [selectedCheckinDate, setSelectedCheckinDate] = React.useState(Date.now());
+  const [selectedCheckoutDate, setSelectedCheckoutDate] = React.useState();
 
-  const handleDateChange = (selectedDate) => {
-    setSelectedDate(selectedDate);
+
+  const handleDateChange = (event) => {
+    setSelectedCheckinDate(event.target.value);
+    console.log(selectedCheckinDate)
+
+  };
+  const handleDateChange2 = (event) => {
+    setSelectedCheckoutDate(event.target.value);
+    console.log(selectedCheckoutDate)
+
   };
   const [open, setOpen] = React.useState(false);
-  const { addRoom, add_room_data, getRoom, get_room_data } = useContext(GoaContext)
-  const handleOpen = () => {
+  const [id, setId] = React.useState();
+
+  const { addRoom, add_room_data, getRoom, get_room_data, addBookings, add_bookings_data } = useContext(GoaContext)
+  const handleOpen = (id) => {
     setOpen(true);
+    setId(id)
   };
 
   const handleClose = () => {
@@ -54,8 +65,21 @@ export default function ImgMediaCard() {
   };
   useEffect(() => {
     getRoom()
-    console.log(selectedDate)
-  }, [add_room_data])
+
+  }, [add_room_data, add_bookings_data])
+  const submit = () => {
+    console.log(selectedCheckinDate)
+    console.log(selectedCheckoutDate)
+    const data1 = [{ selectedCheckinDate, selectedCheckoutDate }]
+
+    addBookings(data1, id)
+    console.log(selectedCheckinDate, selectedCheckoutDate, id)
+
+
+    setSelectedCheckinDate('');
+    setSelectedCheckoutDate('');
+
+  }
 
   return (
     <>
@@ -73,11 +97,12 @@ export default function ImgMediaCard() {
                       <Typography gutterBottom variant="h5" component="h2">
                         {room.about_room}
                       </Typography>
+                      {room.check_in ? <div> <h1>Booked</h1><h1>Check in:{room.check_in}</h1><h1>Check Out:{room.check_in}</h1></div> : <h1>Available</h1>}
                     </CardContent>
 
                   </CardContent>
                 </CardActionArea>
-                <Button onClick={handleOpen}>Add Bookings</Button>
+                <Button onClick={() => handleOpen(room._id)}>Add Bookings</Button>
 
               </Card>
             ) : ''}
@@ -99,28 +124,31 @@ export default function ImgMediaCard() {
                   id="datetime-local"
                   label="Next appointment"
                   type="datetime-local"
-
-
+                  format="MM/dd/yyyy"
+                  name="selectedDate"
                   className={classes.textField}
+                  onChange={handleDateChange}
+                  value={selectedCheckinDate}
+                  defaultValue={selectedCheckinDate}
                   InputLabelProps={{
                     shrink: true,
-                  }}
-                />
+                  }} />
                 <TextField
                   id="datetime-local"
                   label="Next appointment"
                   type="datetime-local"
+                  format="MM/dd/yyyy"
+                  name="selectedDate"
                   className={classes.textField}
-                  onChange={handleDateChange}
-                  value={selectedDate}
-
+                  onChange={handleDateChange2}
+                  value={selectedCheckoutDate}
+                  defaultValue={selectedCheckoutDate}
                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
-
+                <Button onClick={submit}>save</Button>
               </div>
-
             </Modal>
 
           </Grid>

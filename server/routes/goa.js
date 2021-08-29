@@ -41,6 +41,20 @@ router.get('/getRoom', auth, async (req, res) => {
     try {
         const room = await Rooms.find()
         res.json(room)
+
+    } catch (error) {
+        console.log({ error })
+        res.status(500).json({ msg: error })
+    }
+})
+
+router.put('/add_bookings/:id', auth, async (req, res) => {
+    try {
+        console.log(req.body[0])
+        const room = await Rooms.findOneAndUpdate({ _id: req.params.id }, { $set: { check_in: req.body[0].selectedCheckinDate, check_out: req.body[0].selectedCheckoutDate } }, { new: true })
+        //   let master = await Master.findOneAndUpdate({ "user": req.user.id }, { $push: { Location1: { TOP: Location1 } } }, { new: true })
+
+        res.json(room)
         console.log(room)
     } catch (error) {
         console.log({ error })
