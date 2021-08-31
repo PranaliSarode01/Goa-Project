@@ -48,6 +48,27 @@ router.get('/getRoom', auth, async (req, res) => {
     }
 })
 
+
+
+router.delete('/delete_room/:id',
+    auth,
+    async (req, res) => {
+
+        try {
+            let room = await Rooms.findById(req.params.id)
+            try {
+                room = await Rooms.findByIdAndRemove(req.params.id)
+                res.send("room Removed !")
+            } catch (error) {
+                console.error(error.message)
+                res.status(500).send("Server Error - DELETE")
+            }
+        } catch (error) {
+            res.status(400).json({ error: "This room does not exist." })
+        }
+
+    })
+
 router.put('/add_bookings/:id', auth, async (req, res) => {
     try {
         console.log(req.body[0])

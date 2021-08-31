@@ -12,7 +12,10 @@ import {
     GET_ROOM_ERROR,
     GET_CLASS_ERROR,
     ADD_BOOKINGS_SUCCESS,
-    ADD_BOOKINGS_ERROR
+    ADD_BOOKINGS_ERROR,
+
+    DELETE_ROOM_SUCCESS,
+    DELETE_ROOM_ERROR
 } from '../../types'
 
 
@@ -22,7 +25,8 @@ const GoaState = (props) => {
         errors: null,
         add_room_data: null,
         get_room_data: null,
-        add_bookings_data: null
+        add_bookings_data: null,
+        delete_room_data: null,
     }
     const [state, dispatch] = useReducer(GoaReducer, initialState)
 
@@ -101,6 +105,29 @@ const GoaState = (props) => {
         }
     }
 
+    const deleteRoom = async id => {
+        if (localStorage.token) {
+            setToken(localStorage.token)
+        }
+        const config = {
+            header: {
+                'Content-Type': 'application/json'
+            }
+        }
+        try {
+            const res = await axios.delete(`/goa/delete_room/${id}`, config)
+
+            dispatch({
+                type: DELETE_ROOM_SUCCESS,
+                payload: res.data
+            })
+        } catch (error) {
+            dispatch({
+                type: DELETE_ROOM_ERROR,
+                payload: error.response.data
+            })
+        }
+    }
     // get user
 
 
@@ -111,10 +138,13 @@ const GoaState = (props) => {
             value={{
                 add_room_data: state.add_room_data,
                 get_room_data: state.get_room_data,
+                delete_room_data: state.delete_room_data,
+
                 addRoom,
                 getRoom,
                 addBookings,
-                add_bookings_data: state.add_bookings_data
+
+                deleteRoom
 
 
             }}

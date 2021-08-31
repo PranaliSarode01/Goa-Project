@@ -4,7 +4,6 @@ import SignIn from './components/pages/SignIn'
 import ForgotPassword from './components/pages/ForgotPassword'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import AuthState from './context/authContext/AuthState'
-import CryptoState from './context/CryptographContext/CryptoState'
 import GoaState from './context/goaContext/GoaState'
 
 import PrivateRoute from './components/routes/PrivateRoute'
@@ -14,24 +13,24 @@ import FirstForm from './components/FirstForm';
 function App() {
   return (
     <AuthState>
-      <CryptoState>
-        <GoaState>
-          <BrowserRouter>
-            <div>
-              <Switch>
-                <Route exact path="/" component={Landing} />
 
-                <Route exact path="/signin" component={SignIn} />
-                <PrivateRoute exact path="/dashboard" component={FirstForm} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/forgotpassword" component={ForgotPassword} />
-                <SignUp />
-              </Switch>
-            </div>
-          </BrowserRouter>
-        </GoaState>
+      <GoaState>
+        <BrowserRouter>
+          <div>
+            <Switch>
+              <Route exact path="/" component={Landing} />
 
-      </CryptoState>
+              <Route exact path="/signin" component={SignIn} />
+              <PrivateRoute exact path="/dashboard" component={FirstForm} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/forgotpassword" component={ForgotPassword} />
+              <SignUp />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </GoaState>
+
+
     </AuthState>
   );
 }

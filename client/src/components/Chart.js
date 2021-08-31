@@ -52,9 +52,13 @@ export default function ImgMediaCard() {
 
   };
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState();
+  const [open1, setOpen1] = React.useState(false);
 
-  const { addRoom, add_room_data, getRoom, get_room_data, addBookings, add_bookings_data } = useContext(GoaContext)
+  const [id, setId] = React.useState();
+  const [id1, setId1] = React.useState();
+
+
+  const { addRoom, add_room_data, getRoom, get_room_data, addBookings, add_bookings_data, deleteRoom, delete_room_data } = useContext(GoaContext)
   const handleOpen = (id) => {
     setOpen(true);
     setId(id)
@@ -63,10 +67,18 @@ export default function ImgMediaCard() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleOpen1 = (id) => {
+    setOpen1(true);
+    setId1(id)
+  };
+
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
   useEffect(() => {
     getRoom()
 
-  }, [add_room_data, add_bookings_data])
+  }, [add_room_data, add_bookings_data, delete_room_data])
   const submit = () => {
     console.log(selectedCheckinDate)
     console.log(selectedCheckoutDate)
@@ -81,6 +93,7 @@ export default function ImgMediaCard() {
 
   }
 
+
   return (
     <>
       <div>
@@ -91,17 +104,22 @@ export default function ImgMediaCard() {
                 <CardActionArea>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {room.room_name}
+                      Room Name: {room.room_name}
                     </Typography>
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {room.about_room}
+                        About Room:   {room.about_room}
                       </Typography>
-                      {room.check_in ? <div> <h1>Booked</h1><h1>Check in:{room.check_in}</h1><h1>Check Out:{room.check_in}</h1></div> : <h1>Available</h1>}
+                      <Typography gutterBottom variant="h5" component="h2">
+                        Members  Allowed: {room.members}
+                      </Typography>
+                      {room.check_in ? <div> <h1>Booked</h1><h1>Check in:{room.check_in}</h1><h1>Check Out:{room.check_out}</h1></div> : <h1>Available</h1>}
                     </CardContent>
 
                   </CardContent>
                 </CardActionArea>
+                <Button onClick={() => handleOpen1(room._id)}>DELETE ROOM</Button>
+
                 <Button onClick={() => handleOpen(room._id)}>Add Bookings</Button>
 
               </Card>
@@ -118,6 +136,7 @@ export default function ImgMediaCard() {
                 timeout: 500,
               }}
             >
+
               <div className={classes.paper}>
 
                 <TextField
@@ -149,6 +168,26 @@ export default function ImgMediaCard() {
                 />
                 <Button onClick={submit}>save</Button>
               </div>
+            </Modal>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open1}
+              onClose={handleClose1}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <div className={classes.paper}>
+                <h1>Are you sure you want to delete</h1>
+                <Button onClick={() => deleteRoom(id1)}>YES</Button>
+                <Button onClick={handleClose1}>NO</Button>
+              </div>
+
+
             </Modal>
 
           </Grid>

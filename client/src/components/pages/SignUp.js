@@ -1,4 +1,6 @@
-import React,{useState , useContext , useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { Route } from 'react-router-dom'
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,27 +39,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp(props) {
   const classes = useStyles();
-  const {registerUser , userAuth , errors} = useContext(AuthContext)
-  const [state, setState] = useState({name:'',email:'',password:''})
-  const {name,email,password} = state
-  
-const HandleChange = e =>{
-    setState({
-          ...state,
-      [e.target.name] : e.target.value
-    })
-    
-}
-const formSubmit = e =>{
-  e.preventDefault()
-  registerUser(state)
-}
+  const { registerUser, userAuth, errors } = useContext(AuthContext)
+  const [state, setState] = useState({ name: '', email: '', password: '' })
+  const { name, email, password } = state
 
-useEffect(()=>{
-  if(userAuth){
-    props.history.push('/dashboard')
+  const HandleChange = e => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    })
+
   }
-},[userAuth,props.history])
+  const formSubmit = e => {
+    e.preventDefault()
+    registerUser(state)
+  }
+
+  useEffect(() => {
+    if (userAuth) {
+      props.history.push('/dashboard')
+    }
+  }, [userAuth, props.history])
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -83,7 +85,7 @@ useEffect(()=>{
                 onChange={HandleChange}
               />
             </Grid>
-           
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -135,7 +137,7 @@ useEffect(()=>{
         </form>
       </div>
       <Box mt={5}>
-        <Copyright name={"shreyas' app"}/>
+        <Copyright name={"shreyas' app"} />
       </Box>
     </Container>
   );

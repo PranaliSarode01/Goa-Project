@@ -29,6 +29,9 @@ export default function BasicTextFields() {
     const submit = e => {
         e.preventDefault()
         addRoom(state)
+        setState({
+            room_name: '', about_room: '', members: ''
+        })
     }
     return (
         <form className={classes.root} >
