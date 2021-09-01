@@ -55,9 +55,7 @@ function First() {
     }, [add_room_data, add_bookings_data, delete_room_data])
 
 
-    let data1 = [
 
-    ]
     const submit = e => {
         checkavailablity()
         // console.log(checkavailablity_data)
@@ -155,11 +153,11 @@ function First() {
                         <div>
                             <h1 className=" text-2xl p-1 text-gray-600">Check In Date</h1>
                             <TextField
-                                id="datetime-local"
+                                id="date"
                                 label="Next appointment"
-                                type="datetime-local"
+                                type="date"
                                 format="MM/dd/yyyy"
-                                name="selectedDate"
+                                name="CheckinDate"
                                 className={classes.textField}
                                 onChange={handleDateChange}
                                 value={selectedCheckinDate}
@@ -173,9 +171,9 @@ function First() {
                         <h1 className="text-2xl p-1 text-gray-600">Check Out Date</h1>
                         <div>
                             <TextField
-                                id="datetime-local"
-                                label="Next appointment"
-                                type="datetime-local"
+                                id="date"
+                                label="CheckoutDate"
+                                type="date"
                                 format="MM/dd/yyyy"
                                 name="selectedDate"
                                 className={classes.textField}
@@ -214,6 +212,12 @@ function First() {
 
 
                     </div> : '') : '' : ''}
+                    {state.show == true ? checkavailablity_data && checkavailablity_data !== null ? checkavailablity_data.find(room => !room.check_in && !room.check_out && room.members == members) ? '' : <div>
+                        <h1>Rooms not Available</h1>
+
+
+
+                    </div> : '' : ''}
                 </div>
             </div>
         </>

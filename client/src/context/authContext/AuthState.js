@@ -113,6 +113,8 @@ const AuthState = (props) => {
     }
     // function to logout 
     const logout = () => {
+        window.location.reload(true);
+
         dispatch({
             type: LOGOUT
         })

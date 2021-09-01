@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import GoaContext from '../context/goaContext/goaContext'
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasicTextFields() {
     const classes = useStyles();
-    const { addRoom, add_room_data } = useContext(GoaContext)
+    const { addRoom, add_room_data, add_bookings_data, delete_room_data, getRoom, get_room_data, errors, add_room_error, clr_error } = useContext(GoaContext)
     const [state, setState] = useState({ room_name: '', about_room: '', members: '' })
     const { room_name, about_room, members } = state
 
@@ -26,6 +27,10 @@ export default function BasicTextFields() {
         })
 
     }
+    useEffect(() => {
+        getRoom()
+        console.log(get_room_data)
+    }, [add_room_data, add_bookings_data, delete_room_data])
     const submit = e => {
         e.preventDefault()
         addRoom(state)
@@ -85,6 +90,9 @@ export default function BasicTextFields() {
                         <Button variant="outlined" color="primary" onClick={submit}>
                             Save
                         </Button>
+                        {add_room_error && add_room_error !== null ? add_room_error.map(err => <Alert onClose={() => { clr_error() }}>{err.msg}</Alert>) : ''}
+
+
                     </div>
                 </div>
             </div>

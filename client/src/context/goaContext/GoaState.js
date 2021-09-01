@@ -15,7 +15,8 @@ import {
     ADD_BOOKINGS_ERROR,
 
     DELETE_ROOM_SUCCESS,
-    DELETE_ROOM_ERROR
+    DELETE_ROOM_ERROR,
+    CLR_ERROR
 } from '../../types'
 
 
@@ -23,6 +24,7 @@ const GoaState = (props) => {
     const initialState = {
 
         errors: null,
+        add_room_error: null,
         add_room_data: null,
         get_room_data: null,
         add_bookings_data: null,
@@ -48,9 +50,10 @@ const GoaState = (props) => {
                 payload: res.data
             })
         } catch (error) {
+            console.log(error.response)
             dispatch({
                 type: ADD_ROOM_ERROR,
-                payload: error.response.data
+                payload: error.response.data.error
             })
         }
     }
@@ -79,6 +82,11 @@ const GoaState = (props) => {
         }
     }
 
+    const clr_error = () => {
+        dispatch({
+            type: CLR_ERROR
+        })
+    }
     // function to login user 
 
     const getRoom = async userData => {
@@ -98,9 +106,10 @@ const GoaState = (props) => {
                 payload: res.data
             })
         } catch (error) {
+            console.log(error)
             dispatch({
                 type: GET_ROOM_ERROR,
-                payload: error.response.data
+                payload: error
             })
         }
     }
@@ -139,11 +148,12 @@ const GoaState = (props) => {
                 add_room_data: state.add_room_data,
                 get_room_data: state.get_room_data,
                 delete_room_data: state.delete_room_data,
+                add_room_error: state.add_room_error,
 
                 addRoom,
                 getRoom,
                 addBookings,
-
+                clr_error,
                 deleteRoom
 
 

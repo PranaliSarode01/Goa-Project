@@ -77,8 +77,12 @@ export default function ImgMediaCard() {
   };
   useEffect(() => {
     getRoom()
-
+    console.log(get_room_data)
   }, [add_room_data, add_bookings_data, delete_room_data])
+  useEffect(() => {
+    getRoom()
+    console.log(get_room_data)
+  }, [])
   const submit = () => {
     console.log(selectedCheckinDate)
     console.log(selectedCheckoutDate)
@@ -90,6 +94,7 @@ export default function ImgMediaCard() {
 
     setSelectedCheckinDate('');
     setSelectedCheckoutDate('');
+    getRoom()
 
   }
 
@@ -140,11 +145,11 @@ export default function ImgMediaCard() {
               <div className={classes.paper}>
 
                 <TextField
-                  id="datetime-local"
+                  id="date"
                   label="Next appointment"
-                  type="datetime-local"
+                  type="date"
                   format="MM/dd/yyyy"
-                  name="selectedDate"
+                  name="CheckinDate"
                   className={classes.textField}
                   onChange={handleDateChange}
                   value={selectedCheckinDate}
@@ -153,9 +158,9 @@ export default function ImgMediaCard() {
                     shrink: true,
                   }} />
                 <TextField
-                  id="datetime-local"
-                  label="Next appointment"
-                  type="datetime-local"
+                  id="date"
+                  label="CheckoutDate"
+                  type="date"
                   format="MM/dd/yyyy"
                   name="selectedDate"
                   className={classes.textField}

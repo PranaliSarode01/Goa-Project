@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,6 +23,8 @@ import AddRoom from './AddRoom';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import { Button } from '@material-ui/core';
+import AuthContext from '../context/authContext/authContext'
 
 function Copyright() {
   return (
@@ -121,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const { registerUser, userAuth, errors, logout } = useContext(AuthContext)
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -151,6 +155,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Button onClick={() => logout()}>LogOut</Button>
         </Toolbar>
       </AppBar>
       <Drawer
